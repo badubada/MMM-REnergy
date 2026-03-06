@@ -9,19 +9,8 @@ Displays current energy feed-in and production data for Germany in up to four ti
 
 ## Preview
 
-```
-╔══════════════╦══════════════╦══════════════╦══════════════╗
-║  Wind        ║  Solar       ║  Renewables  ║  Production  ║
-║  Feed-in     ║  Feed-in     ║              ║              ║
-║  15.9 GW     ║  3.2 GW      ║    68 %      ║  1.41 TWh    ║
-║  Avg. power  ║  Avg. power  ║  yesterday   ║  yesterday   ║
-║  yesterday   ║  yesterday   ║              ║              ║
-║              ║              ║ 30-day: 52 % ║ Wind   42 %  ║
-║  Peak  22 GW ║  Peak   8 GW ║ [sparkline]  ║ Solar  18 %  ║
-║  593 GWh     ║  77 GWh      ║              ║ Coal   16 %  ║
-║  [sparkline] ║  [sparkline] ║              ║ Gas    11 %  ║
-╚══════════════╩══════════════╩══════════════╩══════════════╝
-```
+<img width="1073" height="363" alt="image" src="https://github.com/user-attachments/assets/a1091419-7227-42c1-89f5-3fb0d8e48051" />
+
 
 ---
 
