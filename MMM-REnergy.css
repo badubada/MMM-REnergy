@@ -1,0 +1,423 @@
+/* MMM-REnergy.css
+ * Dark dashboard style for MagicMirror²
+ * Fonts: Rajdhani (numbers/headlines) + Exo 2 (body)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;500&display=swap');
+
+/* ===== WRAPPER ===== */
+.mmm-renergy-wrapper {
+  font-family: 'Exo 2', sans-serif;
+  color: #e0e8f0;
+  padding: 0;
+  user-select: none;
+  display: inline-block;
+  width: fit-content;
+}
+
+/* ===== GRID ===== */
+.energyde-grid {
+  display: grid;
+  gap: 1px;
+  width: fit-content;
+}
+
+/* Legacy layout classes (kept for compatibility) */
+.energyde-grid--horizontal { grid-template-columns: repeat(4, 1fr); }
+.energyde-grid--vertical   { grid-template-columns: repeat(2, 1fr); }
+
+/* New layout classes */
+.energyde-grid--1   { grid-template-columns: 1fr; }
+.energyde-grid--2   { grid-template-columns: repeat(2, 1fr); }
+.energyde-grid--1x4 { grid-template-columns: repeat(4, 1fr); }
+.energyde-grid--2x2 { grid-template-columns: repeat(2, 1fr); }
+
+/* ===== PANEL ===== */
+.energyde-panel {
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.04);
+  border-top: 2px solid rgba(255,255,255,0.08);
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+}
+
+.energyde-panel--wind       { border-top-color: #00b4d8; }
+.energyde-panel--solar      { border-top-color: #f4c430; }
+.energyde-panel--renewable  { border-top-color: #2ecc71; }
+.energyde-panel--production { border-top-color: #e74c3c; }
+
+/* ===== PANEL HEADER ===== */
+.energyde-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+/* Unicode icon (solar, renewable, production) */
+.energyde-icon {
+  font-size: 1em;
+  opacity: 0.9;
+}
+
+/* SVG icon (wind) – vertically centred with the label */
+.energyde-icon-svg {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.energyde-icon--wind       { color: #00b4d8; }
+.energyde-icon--solar      { color: #f4c430; }
+.energyde-icon--renewable  { color: #2ecc71; }
+.energyde-icon--production { color: #e74c3c; }
+
+.energyde-label {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 500;
+  font-size: 0.72em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #a0b8cc;
+}
+
+/* ===== BIG NUMBER ===== */
+.energyde-big-number {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 2.2em;
+  line-height: 1;
+  color: #ffffff;
+  margin: 4px 0 2px;
+}
+
+.energyde-unit {
+  font-size: 0.55em;
+  font-weight: 400;
+  color: #8aa8bc;
+  letter-spacing: 0.05em;
+}
+
+/* ===== SUBLINE ===== */
+.energyde-sub {
+  font-size: 0.65em;
+  color: #7a9ab0;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.energyde-sub strong {
+  color: #b8d0e0;
+  font-weight: 500;
+}
+
+/* ===== PROGRESS BAR (legacy) ===== */
+.energyde-progress-block { margin-top: 6px; }
+
+.energyde-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.58em;
+  color: #607888;
+  margin-bottom: 3px;
+}
+
+.energyde-goal        { color: #607888; }
+.energyde-current-val { color: #a0c0d8; font-weight: 500; }
+
+.energyde-progress-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.energyde-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1.2s ease;
+}
+
+.energyde-fill--wind  { background: linear-gradient(90deg, #0090b8, #00d4f8); }
+.energyde-fill--solar { background: linear-gradient(90deg, #c8980a, #f4d030); }
+
+/* ===== TODAY VALUE (legacy) ===== */
+.energyde-today-val {
+  font-size: 0.6em;
+  color: #607888;
+  margin-top: 6px;
+}
+
+.energyde-dot          { font-size: 0.7em; margin-right: 3px; }
+.energyde-dot--wind    { color: #00b4d8; }
+.energyde-dot--solar   { color: #f4c430; }
+
+/* ===== RENEWABLE PANEL ===== */
+.energyde-avg {
+  font-size: 0.62em;
+  color: #607888;
+  margin-bottom: 4px;
+}
+
+.energyde-avg strong { color: #2ecc71; }
+
+/* ===== MINI CHART ===== */
+.energyde-minichart,
+.energyde-minichart--xaxis {
+  margin-top: 6px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;  /* SVG fills top, label div sits below */
+  opacity: 0.9;
+}
+
+/* The data SVG grows to fill available height */
+.energyde-minichart > svg,
+.energyde-minichart--xaxis > svg {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: block;
+}
+
+.energyde-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* ===== PRODUCTION BARS ===== */
+.energyde-bars { margin-top: 6px; 
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+
+  flex-direction: column;
+}
+
+.energyde-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 4px;
+  flex: 1;
+  min-height: 0;
+}
+
+.energyde-bar-label {
+  font-size: 0.6em;
+  color: #7a9ab0;
+  width: 48px;
+  flex-shrink: 0;
+}
+
+.energyde-bar-track {
+  flex: 1;
+  height: 5px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.energyde-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1.2s ease;
+  opacity: 0.85;
+}
+
+.energyde-bar-pct {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.65em;
+  color: #a0b8cc;
+  width: 28px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ===== STAT ROW (wind / solar panels) ===== */
+.energyde-stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 4px;
+}
+
+.energyde-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.energyde-stat-val {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1.1em;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.energyde-stat-label {
+  font-size: 0.52em;
+  color: #506878;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 1px;
+}
+
+.energyde-col--wind  { color: #00b4d8; }
+.energyde-col--solar { color: #f4c430; }
+
+/* ===== FOOTER ===== */
+.energyde-footer {
+  font-size: 0.5em;
+  color: #3a5060;
+  text-align: right;
+  margin-top: 4px;
+  padding-right: 2px;
+  letter-spacing: 0.03em;
+}
+
+/* ===== LOADING / ERROR ===== */
+.energyde-loading {
+  font-size: 0.75em;
+  color: #4a7080;
+  padding: 12px 0;
+  text-align: center;
+}
+
+.energyde-spinner {
+  display: inline-block;
+  animation: energyde-spin 1.5s linear infinite;
+}
+
+@keyframes energyde-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.energyde-error {
+  font-size: 0.75em;
+  color: #c0392b;
+  padding: 10px 0;
+  text-align: center;
+}
+
+/* ===== EXPANSION CHART LEGEND ===== */
+.energyde-expansion-legend {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 0.58em;
+  color: #607888;
+}
+
+.energyde-legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 3px;
+  border-radius: 2px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* ===== DONUT CHART (monthlyMix tile) ===== */
+.energyde-donut-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.energyde-donut {
+  display: block;
+}
+
+/* Legend below donut: 2-column grid */
+.energyde-donut-legend--below {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 8px;
+  margin-top: 5px;
+}
+
+.energyde-donut-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1;
+}
+
+.energyde-donut-dot {
+  width:  6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.energyde-donut-label {
+  font-size: 0.57em;
+  color: #7a9ab0;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.energyde-donut-pct {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.62em;
+  color: #a0b8cc;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ===== DATA SOURCE CREDIT ===== */
+.energyde-datasource {
+  font-size: 0.47em;
+  color: #3a5060;
+  margin-top: 4px;
+  text-align: right;
+  font-style: italic;
+}
+
+/* ===== STACKED AREA LEGEND ===== */
+.energyde-stacked-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-top: 4px;
+}
+
+.energyde-stacked-leg {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.56em;
+  color: #7a9ab0;
+  white-space: nowrap;
+}
+
+/* ===== ROTATION DOTS ===== */
+.energyde-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.energyde-dot-item {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transition: background 0.3s ease;
+}
+
+.energyde-dot-active {
+  background: rgba(255,255,255,0.55);
+}

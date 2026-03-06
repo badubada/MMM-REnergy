@@ -1,0 +1,42 @@
+{
+  "name": "MMM-REnergy",
+  "version": "1.1.0",
+  "description": "MagicMirror\u00b2 module showing renewable energy data for Germany (wind, solar, mix) from SMARD.de / Bundesnetzagentur",
+  "main": "MMM-REnergy.js",
+  "keywords": [
+    "MagicMirror",
+    "MagicMirror2",
+    "MagicMirror\u00b2",
+    "energy",
+    "renewable",
+    "germany",
+    "solar",
+    "wind",
+    "SMARD",
+    "Bundesnetzagentur",
+    "smartmirror"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/badubada/MMM-REnergy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/badubada/MMM-REnergy/issues"
+  },
+  "homepage": "https://github.com/badubada/MMM-REnergy#readme",
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0"
+  },
+  "scripts": {
+    "lint": "eslint MMM-REnergy.js node_helper.js",
+    "lint:fix": "eslint MMM-REnergy.js node_helper.js --fix"
+  }
+}
