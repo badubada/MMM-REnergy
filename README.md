@@ -118,9 +118,6 @@ Full config with all options:
     // select grid layout, options: "1x4", "2x2" <-- only used if tilesVisible > 2
     gridLayout: "2x2"
 
-
-```
-
 ---
 
 ## Tiles
