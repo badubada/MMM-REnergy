@@ -9,16 +9,21 @@ Displays current energy feed-in and production data for Germany in up to four ti
 
 ## Preview
 
-<img width="1073" height="363" alt="image" src="https://github.com/user-attachments/assets/06bfe57a-4687-4e41-994a-be8c37aca106" />
-
+```
+╔══════════════╦══════════════╦══════════════╦══════════════╗
+║  Wind        ║  Solar       ║  Renewables  ║  Production  ║
+║  Feed-in     ║  Feed-in     ║              ║              ║
+║  15.9 GW     ║  3.2 GW      ║    68 %      ║  1.41 TWh    ║
+║  Avg. power  ║  Avg. power  ║  yesterday   ║  yesterday   ║
+║  yesterday   ║  yesterday   ║              ║              ║
+║              ║              ║ 30-day: 52 % ║ Wind   42 %  ║
+║  Peak  22 GW ║  Peak   8 GW ║ [sparkline]  ║ Solar  18 %  ║
+║  593 GWh     ║  77 GWh      ║              ║ Coal   16 %  ║
+║  [sparkline] ║  [sparkline] ║              ║ Gas    11 %  ║
+╚══════════════╩══════════════╩══════════════╩══════════════╝
+```
 
 ---
-
-## Data Source
-
-**SMARD.de – Federal Network Agency (Bundesnetzagentur)**  
-Licence: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)  
-Source is cited in the module footer as required by the licence.
 
 ---
 
@@ -88,17 +93,31 @@ Full config with all options:
 ## Layout Examples
 
 ```js
-// 4 tiles side by side (default)
-config: { tilesVisible: 4, gridLayout: "1x4" }
-
-// 2×2 grid
-config: { tilesVisible: 4, gridLayout: "2x2" }
-
-// 2 tiles, auto-rotating every 10 s
-config: { tilesVisible: 2, rotation: true, rotationInterval: 10000 }
-
-// 1 tile with rotation dots
-config: { tilesVisible: 1, rotation: true, rotationInterval: 8000 }
+config: {
+    language: "en",  // options: "en", "de"
+    tiles: 
+    [
+    "wind", 
+    "solar", 
+    "renewable", 
+    "production",
+    //"windExpansion",  //<-- actual data broken!
+    "solarExpansion",
+    "monthlyMix",
+    "weeklyMix", 
+    "renewableWeekly",
+    "batteryLongTerm",
+    "renewableEU",
+    ],
+    tilesVisible: 4, // options: 1,2,4
+    gridLayout: "2x2",  //options: "1x4", "2x2" <-- only used if tilesVisible > 2
+    tileWidth:  200,   // tile width in px (null = auto)
+    tileHeight: 280,   // tile height in px (null = auto)
+    rotation: true, // has only an effect if tilesVisible < 4
+    rotationInterval: 10000, // miliseconds
+    fetchInterval: 24 * 60 * 60 * 1000, // once per day
+    } 
+},
 ```
 
 ---
@@ -126,3 +145,6 @@ config: { tilesVisible: 1, rotation: true, rotationInterval: 8000 }
 
 MIT – module code  
 CC BY 4.0 – data from Bundesnetzagentur | SMARD.de
+CC BY 4.0 – data from Fraunhofer Institute for Solar Energy Systems ISE | https://www.energy-charts.info
+CC BY 4.0 – WTH Aachen University | battery-charts.de/battery-charts
+
