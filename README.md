@@ -94,12 +94,10 @@ Full config with all options:
 
 ---
 
-## Layout Examples
-
-```js
-config: {
-    language: "en",  // options: "en", "de"
-    tiles: 
+## Layout Options
+    
+    // activate or deactivate the following tiles:
+    tiles:  
     [
     "wind", 
     "solar", 
@@ -113,15 +111,14 @@ config: {
     "batteryLongTerm",
     "renewableEU",
     ],
-    tilesVisible: 4, // options: 1,2,4
-    gridLayout: "2x2",  //options: "1x4", "2x2" <-- only used if tilesVisible > 2
-    tileWidth:  200,   // tile width in px (null = auto)
-    tileHeight: 280,   // tile height in px (null = auto)
-    rotation: true, // has only an effect if tilesVisible < 4
-    rotationInterval: 10000, // miliseconds
-    fetchInterval: 24 * 60 * 60 * 1000, // once per day
-    } 
-},
+
+    // select visible tiles, options: 1,2,4 (default: 4)
+    tilesVisible: 4
+    
+    // select grid layout, options: "1x4", "2x2" <-- only used if tilesVisible > 2
+    gridLayout: "2x2"
+
+
 ```
 
 ---
