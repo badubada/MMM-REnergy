@@ -127,17 +127,17 @@ Full config with all options:
 
 | Tile ID | Content |
 |---|---|
-| `wind` | Average & peak feed-in power (GW), total GWh |
-| `solar` | Average & peak feed-in power (GW), total GWh |
-| `renewable` | Renewable share (%), 30-day average |
-| `production` | Total power generation (TWh) |
-| `windExpansion` | Development of installed capacity (GW), corrupt data |
-| `solarExpansion` | Development of installed power  (GW) |
-| `monthlyMix` | Distribution across renewable energies (%), 30-day average |
-| `weeklyMix` | Distribution across renewable energies (%), 7-day data |
-| `renewableWeekly` | Average & peak feed-in power (%) |
-| `batteryLongTerm` | Battery storage expansion (GWh) |
-| `renewableEU` | Renevable energy share in EU contries (%), unfinished, experimental |
+| `wind` | Average & peak wind feed-in (GW), total GWh yesterday |
+| `solar` | Average & peak solar feed-in (GW), total GWh yesterday |
+| `renewable` | Renewable share yesterday (%), 30-day trend sparkline |
+| `production` | Total generation (TWh), breakdown by carrier |
+| `windExpansion` | Installed wind capacity over time (GW) |
+| `solarExpansion` | Installed solar capacity over time (GW) |
+| `monthlyMix` | Power mix current month — share per carrier (%) |
+| `weeklyMix` | Hourly generation by carrier, last 7 days (GW) |
+| `renewableWeekly` | Renewable vs. conventional share, last 7 days (%) |
+| `batteryLongTerm` | Battery storage expansion history (GWh) |
+| `renewableEU` | Renewable share per European country, yesterday (%) |
 
 ---
 
