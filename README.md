@@ -61,7 +61,19 @@ Full config with all options:
     gridLayout: "1x4",
 
     // Tile order (remove or reorder as desired)
-    tiles: ["wind", "solar", "renewable", "production"],
+    tiles:     [
+    "wind", 
+    "solar", 
+    "renewable", 
+    "production",
+    //"windExpansion",  //<-- actual data broken!
+    "solarExpansion",
+    "monthlyMix",
+    "weeklyMix", 
+    "renewableWeekly",
+    "batteryLongTerm",
+    "renewableEU",
+    ],
 
     // Auto-rotate tiles (useful when tilesVisible is 1 or 2)
     rotation: false,
