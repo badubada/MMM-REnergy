@@ -130,7 +130,7 @@ Full config with all options:
 | `wind` | Average & peak feed-in power (GW), total GWh |
 | `solar` | Average & peak feed-in power (GW), total GWh |
 | `renewable` | Renewable share (%), 30-day average |
-| `production` | Total generation (TWh) |
+| `production` | Total power generation (TWh) |
 | `windExpansion` | Development of installed capacity (GW), corrupt data |
 | `solarExpansion` | Development of installed power  (GW) |
 | `monthlyMix` | Distribution across renewable energies (%), 30-day average |
