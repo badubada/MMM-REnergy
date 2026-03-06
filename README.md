@@ -9,10 +9,8 @@ Displays current energy feed-in and production data for Germany in up to four ti
 
 ## Preview
 
-```
-<img width="1073" height="363" alt="image" src="https://github.com/user-attachments/assets/ad8d9d3f-1b56-4ccb-ba0f-db5ca7d73604" />
+<img width="1073" height="363" alt="image" src="https://github.com/user-attachments/assets/06bfe57a-4687-4e41-994a-be8c37aca106" />
 
-```
 
 ---
 
