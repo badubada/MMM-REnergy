@@ -2,7 +2,10 @@
 
 **MagicMirror² module** – Renewable Energy in Germany
 
-Displays current energy feed-in and production data for Germany in up to four tiles, sourced from the official SMARD API of the Federal Network Agency (Bundesnetzagentur).
+Displays current relevant data for the development of renewable energies in for european countries (inial commit: only Germany is included) in up to four tiles in a flexible grid layout.
+This module was vibe coded with Anthropic's Claude AI. Sonnet 4.6. Please feel free to adapt it / improve it / make suggestions.
+Please be aware that this is my first created MagicMirror module - so for sure it does not fullfil the standards in module development (not yet ;-). 
+Your feedback is very welcome!
 
 ---
 
@@ -75,7 +78,7 @@ Full config with all options:
     "renewableEU",
     ],
 
-    // Auto-rotate tiles (useful when tilesVisible is 1 or 2)
+    // Auto-rotate tiles (useful if tilesVisible < than the number of activated tiles)
     rotation: false,
     rotationInterval: 8000,   // ms between tile changes
     rotationTransition: 600,  // ms fade duration
@@ -125,12 +128,20 @@ config: {
 
 ## Tiles
 
-| Tile ID | Content | SMARD filters |
-|---|---|---|
-| `wind` | Average & peak feed-in power (GW), total GWh, share, sparkline | 4068 + 1225 |
-| `solar` | Average & peak feed-in power (GW), total GWh, share, sparkline | 4067 |
-| `renewable` | Renewable share (%), 30-day average, sparkline | all vs. total |
-| `production` | Total generation (TWh), horizontal bar chart per carrier | all |
+| Tile ID | Content |
+|---|---|
+| `wind` | Average & peak feed-in power (GW), total GWh |
+| `solar` | Average & peak feed-in power (GW), total GWh |
+| `renewable` | Renewable share (%), 30-day average |
+| `production` | Total generation (TWh) |
+
+| `windExpansion` | Development of installed capacity (GW), corrupt data |
+| `solarExpansion` | Development of installed power  (GW) |
+| `monthlyMix` | Distribution across renewable energies (%), 30-day average |
+| `weeklyMix` | Distribution across renewable energies (%), 7-day data |
+| `renewableWeekly` | Average & peak feed-in power (%) |
+| `batteryLongTerm` | Battery storage expansion (GWh) |
+| `renewableEU` | Renevable energy share in EU contries (%), unfinished, experimental |
 
 ---
 
@@ -139,6 +150,14 @@ config: {
 - **Data delay**: SMARD updates day-resolution data with a 1–2 day lag, so values always reflect *yesterday*.
 - **Peak GW**: Day-resolution data does not include 15-minute peaks. Values are estimated (wind ×1.4, solar ×2.5 of average).
 - **30-day average**: Calculated from the last 30 days with complete data across all carriers.
+
+---
+
+## Further development
+
+- bug fixes
+- include data from all european countries
+- ...
 
 ---
 
