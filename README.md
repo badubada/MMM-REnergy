@@ -128,7 +128,7 @@ Full config with all options:
 | `solar` | Average & peak solar feed-in (GW), total GWh yesterday |
 | `renewable` | Renewable share yesterday (%), 30-day trend sparkline |
 | `production` | Total generation (TWh), breakdown by carrier |
-| `windExpansion` | Installed wind capacity over time (GW) |
+| `windExpansion` | Installed wind capacity over time (GW), currently broken data! |
 | `solarExpansion` | Installed solar capacity over time (GW) |
 | `monthlyMix` | Power mix current month — share per carrier (%) |
 | `weeklyMix` | Hourly generation by carrier, last 7 days (GW) |
