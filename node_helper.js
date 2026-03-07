@@ -19,7 +19,7 @@
 "use strict";
 
 const NodeHelper = require("node_helper");
-const https      = require("https");
+const https      = require("node:https");
 
 const TAG = "MMM-REnergy";
 

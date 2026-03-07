@@ -5,16 +5,12 @@
   "main": "MMM-REnergy.js",
   "keywords": [
     "MagicMirror",
-    "MagicMirror2",
+    "MagicMirror²",
     "MagicMirror\u00b2",
     "energy",
     "renewable",
-    "germany",
     "solar",
     "wind",
-    "SMARD",
-    "Bundesnetzagentur",
-    "smartmirror"
   ],
   "repository": {
     "type": "git",

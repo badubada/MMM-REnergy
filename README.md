@@ -1,9 +1,9 @@
 # MMM-REnergy
 
-**MagicMirror² module** – Renewable Energy in Germany
+**MagicMirror² module** – Renewable Energy in Europe (initial test: only Germany)
 
 Displays current relevant data for the development of renewable energies in for european countries (inial commit: only Germany is included) in up to four tiles in a flexible grid layout.
-This module was vibe coded with Anthropic's Claude AI. Sonnet 4.6. Please feel free to adapt it / improve it / make suggestions.
+This module was vibe coded with Anthropic's Claude AI - Sonnet 4.6. Please feel free to adapt it / improve it / make suggestions.
 Please be aware that this is my first created MagicMirror module - so for sure it does not fullfil the standards in module development (not yet ;-). 
 Your feedback is very welcome!
 
@@ -23,10 +23,10 @@ Your feedback is very welcome!
 
 ```bash
 cd ~/MagicMirror/modules
-git clone https://github.com/YOUR_USERNAME/MMM-REnergy.git
+git clone https://github.com/badubada/MMM-REnergy.git
 ```
 
-No `npm install` required — the module uses only Node.js built-ins (`https`).
+No `npm install` required — the module uses only Node.js built-ins.
 
 ---
 
@@ -128,7 +128,7 @@ Full config with all options:
 | `solar` | Average & peak solar feed-in (GW), total GWh yesterday |
 | `renewable` | Renewable share yesterday (%), 30-day trend sparkline |
 | `production` | Total generation (TWh), breakdown by carrier |
-| `windExpansion` | Installed wind capacity over time (GW), currently broken data! |
+| `windExpansion` | Installed wind capacity over time (GW), data currently broken! |
 | `solarExpansion` | Installed solar capacity over time (GW) |
 | `monthlyMix` | Power mix current month — share per carrier (%) |
 | `weeklyMix` | Hourly generation by carrier, last 7 days (GW) |
@@ -151,6 +151,13 @@ Full config with all options:
 - bug fixes
 - include data from all european countries
 - ...
+
+---
+
+## Update
+Just enter the MMM-REnergy directory and pull the update:
+cd ~/MagicMirror/modules/MMM-REnergy
+git pull
 
 ---
 
