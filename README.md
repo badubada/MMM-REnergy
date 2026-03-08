@@ -10,14 +10,13 @@ Your feedback is very welcome!
 ---
 
 
-## Preview
+## Screenshot
 
 <img width="1073" height="363" alt="image" src="https://github.com/user-attachments/assets/a1091419-7227-42c1-89f5-3fb0d8e48051" />
 
 
 ---
 
----
 
 ## Installation
 
