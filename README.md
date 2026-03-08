@@ -12,7 +12,7 @@ Your feedback is very welcome!
 
 ## Screenshot
 
-Screenshot.png
+@Screenshot.png
 
 ---
 
