@@ -12,8 +12,7 @@ Your feedback is very welcome!
 
 ## Screenshot
 
-<img width="2711" height="882" alt="Screenshot" src="https://github.com/user-attachments/assets/da24de02-4fb3-48b8-91bb-ccddacb77dab" />
-
+Screenshot.png
 
 ---
 
