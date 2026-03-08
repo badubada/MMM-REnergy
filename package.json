@@ -1,38 +1,29 @@
 {
   "name": "MMM-REnergy",
-  "version": "1.1.0",
-  "description": "MagicMirror\u00b2 module showing renewable energy data for Germany (wind, solar, mix) from SMARD.de / Bundesnetzagentur",
+  "version": "1.0.0",
+  "description": "MagicMirror² module: Renewable energy dashboard (wind, solar, EU map) via energy-charts.info",
   "main": "MMM-REnergy.js",
+  "author": "",
+  "license": "MIT",
   "keywords": [
     "MagicMirror",
-    "MagicMirror²",
-    "MagicMirror\u00b2",
+    "MagicMirror2",
     "energy",
     "renewable",
     "solar",
     "wind",
+    "smartmirror"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/badubada/MMM-REnergy.git"
+    "url": "git+https://github.com/YOUR_USERNAME/MMM-REnergy.git"
   },
   "bugs": {
-    "url": "https://github.com/badubada/MMM-REnergy/issues"
+    "url": "https://github.com/YOUR_USERNAME/MMM-REnergy/issues"
   },
-  "homepage": "https://github.com/badubada/MMM-REnergy#readme",
-  "author": "",
-  "license": "MIT",
+  "homepage": "https://github.com/YOUR_USERNAME/MMM-REnergy#readme",
   "engines": {
     "node": ">=18.0.0"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "@eslint/js": "^9.0.0",
-    "eslint": "^9.0.0",
-    "globals": "^15.0.0"
-  },
-  "scripts": {
-    "lint": "eslint MMM-REnergy.js node_helper.js",
-    "lint:fix": "eslint MMM-REnergy.js node_helper.js --fix"
-  }
+  "dependencies": {}
 }
