@@ -37,7 +37,7 @@ Minimal config:
 {
   module: "MMM-REnergy",
   position: "bottom_bar",
-}
+},
 ```
 
 Full config with all options:
@@ -88,7 +88,7 @@ Full config with all options:
     // Number of days shown in sparkline charts
     chartDays: 30,
   }
-}
+},
 ```
 
 ---
