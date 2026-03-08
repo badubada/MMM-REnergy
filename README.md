@@ -155,10 +155,10 @@ Full config with all options:
 
 ## Update
 Just enter the MMM-REnergy directory and pull the update:
+```bash
 cd ~/MagicMirror/modules/MMM-REnergy
 git pull
-
----
+```
 
 ## License
 
