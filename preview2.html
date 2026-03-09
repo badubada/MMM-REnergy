@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MMM-REnergy · Preview 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0a0f14;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 30px;
+  font-family: 'Exo 2', sans-serif;
+}
+.preview-label { color:#3a5060; font-size:0.65em; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:20px; }
+.mmm-renergy-wrapper { font-family:'Exo 2',sans-serif; color:#e0e8f0; user-select:none; display:inline-block; width:fit-content; }
+.energyde-grid { display:grid; gap:1px; width:fit-content; grid-template-columns: repeat(4, 210px); }
+.energyde-panel { padding:10px 14px; background:rgba(255,255,255,0.04); border-top:2px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; }
+.energyde-panel--wind       { border-top-color:#00b4d8; }
+.energyde-panel--solar      { border-top-color:#f4c430; }
+.energyde-panel--renewable  { border-top-color:#2ecc71; }
+.energyde-panel--production { border-top-color:#e74c3c; }
+.energyde-panel-header { display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+.energyde-icon { font-size:1em; opacity:0.9; }
+.energyde-icon-svg { display:inline-block; vertical-align:middle; flex-shrink:0; opacity:0.9; }
+.energyde-icon--wind { color:#00b4d8; } .energyde-icon--solar { color:#f4c430; }
+.energyde-icon--renewable { color:#2ecc71; } .energyde-icon--production { color:#e74c3c; }
+.energyde-label { font-weight:500; font-size:0.72em; text-transform:uppercase; letter-spacing:0.08em; color:#a0b8cc; }
+.energyde-big-number { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:2.2em; line-height:1; color:#fff; margin:4px 0 2px; }
+.energyde-unit { font-size:0.55em; font-weight:400; color:#8aa8bc; letter-spacing:0.05em; }
+.energyde-sub { font-size:0.65em; color:#7a9ab0; line-height:1.3; margin-bottom:6px; }
+.energyde-progress-block { margin-top:4px; }
+.energyde-progress-label { display:flex; justify-content:space-between; font-size:0.58em; color:#607888; margin-bottom:3px; }
+.energyde-goal { color:#607888; }
+.energyde-current-val { color:#a0c0d8; font-weight:500; }
+.energyde-progress-bar { height:4px; background:rgba(255,255,255,0.08); border-radius:2px; overflow:visible; position:relative; }
+.energyde-progress-fill { height:100%; border-radius:2px; transition:width 1.2s ease; overflow:visible; }
+.energyde-fill--wind  { background:linear-gradient(90deg,#0090b8,#00d4f8); }
+.energyde-fill--solar { background:linear-gradient(90deg,#c8980a,#f4d030); }
+.energyde-stat-row { display:flex; justify-content:space-between; gap:4px; }
+.energyde-stat { display:flex; flex-direction:column; align-items:center; flex:1; }
+.energyde-stat-val { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.1em; color:#fff; line-height:1.1; }
+.energyde-stat-label { font-size:0.52em; color:#506878; text-transform:uppercase; letter-spacing:0.05em; margin-top:1px; }
+.energyde-col--wind { color:#00b4d8; } .energyde-col--solar { color:#f4c430; }
+/* donut */
+.energyde-donut-center { display:flex; justify-content:center; margin-top:2px; }
+.energyde-donut { display:block; }
+.energyde-donut-legend--below { display:grid; grid-template-columns:1fr 1fr; gap:2px 8px; margin-top:5px; }
+.energyde-donut-row { display:flex; align-items:center; gap:4px; line-height:1; }
+.energyde-donut-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.energyde-donut-label { font-size:0.57em; color:#7a9ab0; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.energyde-donut-pct { font-family:'Rajdhani',sans-serif; font-size:0.62em; color:#a0b8cc; text-align:right; flex-shrink:0; }
+/* stacked area */
+.energyde-minichart--xaxis { margin-top:6px; flex:1; min-height:0; display:flex; flex-direction:column; opacity:0.9; }
+.energyde-minichart--xaxis > svg { flex:1; min-height:0; width:100%; display:block; }
+.energyde-svg { display:block; width:100%; height:auto; overflow:visible; }
+.energyde-stacked-legend { display:flex; flex-wrap:wrap; gap:4px 8px; margin-top:4px; }
+.energyde-stacked-leg { display:flex; align-items:center; gap:4px; font-size:0.56em; color:#7a9ab0; white-space:nowrap; }
+.energyde-footer { font-size:0.5em; color:#3a5060; text-align:right; margin-top:4px; padding-right:2px; letter-spacing:0.03em; }
+</style>
+</head>
+<body>
+<div class="preview-label">MMM-REnergy · Preview 2 · windExpansion / solarExpansion / monthlyMix / weeklyMix</div>
+<div class="mmm-renergy-wrapper">
+  <div class="energyde-grid">
+
+    <!-- WIND EXPANSION -->
+    <div class="energyde-panel energyde-panel--wind">
+      <div class="energyde-panel-header">
+        <svg class="energyde-icon-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#00b4d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+        <span class="energyde-label">Wind Energy Expansion 2026</span>
+      </div>
+      <div class="energyde-big-number">0.87 <span class="energyde-unit">GW</span></div>
+      <div class="energyde-sub">newly installed since Jan 2026 (Feb)</div>
+      <div class="energyde-progress-block">
+        <div class="energyde-progress-label">
+          <span class="energyde-goal">Target 2026 · 10 GW</span>
+          <span class="energyde-current-val">8.7 %</span>
+        </div>
+        <div class="energyde-progress-bar" id="wind-bar">
+          <div class="energyde-progress-fill energyde-fill--wind" style="width:8.7%"></div>
+          <div id="wind-marker" style="position:absolute;top:-3px;width:1px;height:10px;background:rgba(255,255,255,0.4)"></div>
+        </div>
+        <div style="position:relative;height:18px;margin-top:2px">
+          <div id="wind-marker-label" style="position:absolute;top:0;font-size:6px;color:#506878;white-space:nowrap;font-family:'Exo 2',sans-serif"></div>
+        </div>
+      </div>
+      <div class="energyde-stat-row" style="margin-top:10px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.06)">
+        <div class="energyde-stat">
+          <span class="energyde-stat-label">Expansion 2025</span>
+          <span class="energyde-stat-val energyde-col--wind">5.13 <span style="font-size:0.65em;font-weight:400;color:#7a9ab0">GW</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOLAR EXPANSION -->
+    <div class="energyde-panel energyde-panel--solar">
+      <div class="energyde-panel-header">
+        <span class="energyde-icon energyde-icon--solar">☀</span>
+        <span class="energyde-label">Solar Energy Expansion 2026</span>
+      </div>
+      <div class="energyde-big-number">1.88 <span class="energyde-unit">GW</span></div>
+      <div class="energyde-sub">newly installed since Jan 2026 (Feb)</div>
+      <div class="energyde-progress-block">
+        <div class="energyde-progress-label">
+          <span class="energyde-goal">Target 2026 · 22 GW</span>
+          <span class="energyde-current-val">8.5 %</span>
+        </div>
+        <div class="energyde-progress-bar" id="solar-bar">
+          <div class="energyde-progress-fill energyde-fill--solar" style="width:8.5%"></div>
+          <div id="solar-marker" style="position:absolute;top:-3px;width:1px;height:10px;background:rgba(255,255,255,0.4)"></div>
+        </div>
+        <div style="position:relative;height:18px;margin-top:2px">
+          <div id="solar-marker-label" style="position:absolute;top:0;font-size:6px;color:#506878;white-space:nowrap;font-family:'Exo 2',sans-serif"></div>
+        </div>
+      </div>
+      <div class="energyde-stat-row" style="margin-top:10px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.06)">
+        <div class="energyde-stat">
+          <span class="energyde-stat-label">Expansion 2025</span>
+          <span class="energyde-stat-val energyde-col--solar">16.93 <span style="font-size:0.65em;font-weight:400;color:#7a9ab0">GW</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MONTHLY MIX -->
+    <div class="energyde-panel energyde-panel--production">
+      <div class="energyde-panel-header">
+        <span class="energyde-icon energyde-icon--production">⚡</span>
+        <span class="energyde-label">Power Mix This Month</span>
+      </div>
+      <div class="energyde-sub" style="margin-bottom:4px">28.4 TWh · Generation current month</div>
+      <div class="energyde-donut-center">
+        <svg id="donut-svg" viewBox="0 0 104 104" width="100" height="100" class="energyde-donut"></svg>
+      </div>
+      <div class="energyde-donut-legend--below" id="donut-legend"></div>
+    </div>
+
+    <!-- WEEKLY MIX -->
+    <div class="energyde-panel energyde-panel--production">
+      <div class="energyde-panel-header">
+        <span class="energyde-icon energyde-icon--production">⚡</span>
+        <span class="energyde-label">Power This Week</span>
+      </div>
+      <div class="energyde-sub">Hourly feed-in (7 days)</div>
+      <div class="energyde-minichart--xaxis">
+        <svg id="weekly-svg" viewBox="0 0 200 48" class="energyde-svg" preserveAspectRatio="none" style="overflow:visible;width:100%;height:60px;display:block;"></svg>
+        <div style="position:relative;height:11px;margin-top:1px;" id="weekly-labels"></div>
+      </div>
+      <div class="energyde-stacked-legend" id="weekly-legend"></div>
+    </div>
+
+  </div>
+  <div class="energyde-footer">Data: Fraunhofer ISE · energy-charts.info · 08.03.2026</div>
+</div>
+
+<script>
+// ── Day-of-year marker ────────────────────────────────────────
+const now = new Date();
+const startOfYear = new Date(now.getFullYear(), 0, 1);
+const dayOfYear = Math.floor((now - startOfYear) / 86400000) + 1;
+const daysInYear = ((now.getFullYear() % 4 === 0) && (now.getFullYear() % 100 !== 0 || now.getFullYear() % 400 === 0)) ? 366 : 365;
+const pctDay = (dayOfYear / daysInYear * 100).toFixed(1);
+const dd = String(now.getDate()).padStart(2,"0");
+const mm = String(now.getMonth()+1).padStart(2,"0");
+const dateStr = `${mm}/${dd}`;
+
+["wind","solar"].forEach(id => {
+  const bar = document.getElementById(`${id}-bar`);
+  const marker = document.getElementById(`${id}-marker`);
+  const label  = document.getElementById(`${id}-marker-label`);
+  marker.style.left = `${pctDay}%`;
+  label.style.left  = `${pctDay}%`;
+  label.style.transform = "translateX(-50%)";
+  label.textContent = `${dateStr}: ${pctDay} %`;
+});
+
+// ── Donut chart ───────────────────────────────────────────────
+const carriers = [
+  { label:"Wind",    color:"#00b4d8", value:22 },
+  { label:"Solar",   color:"#f4c430", value:18 },
+  { label:"Biomass", color:"#4a7c59", value:8  },
+  { label:"Gas",     color:"#9b59b6", value:12 },
+  { label:"Coal",    color:"#8b5e3c", value:36 },
+  { label:"Other",   color:"#556677", value:4  },
+];
+const cx=52, cy=52, R=44, r=28, GAP=1.5;
+const total = carriers.reduce((s,c)=>s+c.value,0);
+let angle = -90;
+let paths = "";
+carriers.forEach(c => {
+  const deg = (c.value/total)*360;
+  const start = angle + GAP/2, end = angle + deg - GAP/2;
+  angle += deg;
+  if (deg < 1) return;
+  const rad = d => d*Math.PI/180;
+  const x1o=cx+R*Math.cos(rad(start)), y1o=cy+R*Math.sin(rad(start));
+  const x2o=cx+R*Math.cos(rad(end)),   y2o=cy+R*Math.sin(rad(end));
+  const x1i=cx+r*Math.cos(rad(end)),   y1i=cy+r*Math.sin(rad(end));
+  const x2i=cx+r*Math.cos(rad(start)), y2i=cy+r*Math.sin(rad(start));
+  const large = (deg-GAP) > 180 ? 1 : 0;
+  paths += `<path d="M${x1o.toFixed(2)},${y1o.toFixed(2)} A${R},${R} 0 ${large},1 ${x2o.toFixed(2)},${y2o.toFixed(2)} L${x1i.toFixed(2)},${y1i.toFixed(2)} A${r},${r} 0 ${large},0 ${x2i.toFixed(2)},${y2i.toFixed(2)} Z" fill="${c.color}" opacity="0.92"/>`;
+});
+const renewPct = 22+18+8;
+document.getElementById("donut-svg").innerHTML = paths +
+  `<text x="${cx}" y="${cy-5}" text-anchor="middle" font-family="Rajdhani,sans-serif" font-weight="700" font-size="16" fill="#fff">${renewPct}</text>` +
+  `<text x="${cx}" y="${cy+9}" text-anchor="middle" font-family="Exo 2,sans-serif" font-size="6.5" fill="#7a9ab0">% Renewable</text>`;
+
+document.getElementById("donut-legend").innerHTML = carriers.filter(c=>c.value>0).map(c =>
+  `<div class="energyde-donut-row"><span class="energyde-donut-dot" style="background:${c.color}"></span><span class="energyde-donut-label">${c.label}</span><span class="energyde-donut-pct">${c.value}%</span></div>`
+).join("");
+
+// ── Weekly stacked area ───────────────────────────────────────
+const N = 168; // hourly, 7 days
+const weekLayers = [
+  { label:"Coal",    color:"#6b4c30", base:180, amp:80  },
+  { label:"Gas",     color:"#9b59b6", base:50,  amp:30  },
+  { label:"Biomass", color:"#4a7c59", base:80,  amp:10  },
+  { label:"Solar",   color:"#f4c430", base:0,   amp:200 },
+  { label:"Wind",    color:"#00b4d8", base:100, amp:150 },
+];
+const layers = weekLayers.map(l => ({
+  label: l.label, color: l.color,
+  vals: Array.from({length:N}, (_,i) => {
+    const h = i % 24;
+    const solar = l.label==="Solar" ? Math.max(0, Math.sin((h-6)*Math.PI/12)*l.amp) : 0;
+    const base  = l.label!=="Solar" ? l.base + Math.sin(i/12)*l.amp*0.3 + Math.random()*l.amp*0.2 : solar;
+    return l.label==="Solar" ? solar : Math.max(0, base);
+  })
+}));
+
+// Downsample 168→84
+const ds = arr => { const o=[]; for(let i=0;i<arr.length;i+=2) o.push((arr[i]+(arr[i+1]||arr[i]))/2); return o; };
+const dsLayers = layers.map(l => ({...l, vals: ds(l.vals)}));
+const dsLen = dsLayers[0].vals.length;
+
+// Stack
+const stacked = dsLayers.map(()=>new Array(dsLen).fill(0));
+for(let i=0;i<dsLen;i++) { let cum=0; dsLayers.forEach((l,li)=>{ cum+=l.vals[i]||0; stacked[li][i]=cum; }); }
+const maxVal = Math.max(...stacked[stacked.length-1]) || 1;
+const W=200, H=48, PT=3;
+const toX = i => ((i/(dsLen-1))*W).toFixed(1);
+const toY = v => (PT+(H-PT)-(v/maxVal)*(H-PT)).toFixed(1);
+
+let svgPaths = "";
+for(let l=dsLayers.length-1;l>=0;l--) {
+  const top=stacked[l], bot=l>0?stacked[l-1]:new Array(dsLen).fill(0);
+  const tp = top.map((v,i)=>`${toX(i)},${toY(v)}`).join(" ");
+  const bp = bot.map((_,i)=>`${toX(dsLen-1-i)},${toY(bot[dsLen-1-i])}`).join(" ");
+  svgPaths += `<polygon points="${tp} ${bp}" fill="${dsLayers[l].color}" opacity="0.85"/>`;
+}
+svgPaths += `<line x1="0" y1="${(PT+H-PT).toFixed(1)}" x2="${W}" y2="${(PT+H-PT).toFixed(1)}" stroke="#2a3a48" stroke-width="0.5"/>`;
+document.getElementById("weekly-svg").innerHTML = svgPaths;
+
+const dayNames = ["Mo","Tu","We","Th","Fr","Sa","Su"];
+const today = now.getDay();
+const step = Math.round(dsLen/7);
+let labelsHtml = "";
+for(let i=0;i<7;i++) {
+  const idx = Math.min(i*step, dsLen-1);
+  const pct = ((idx/(dsLen-1))*100).toFixed(1);
+  const d7 = new Date(); d7.setDate(d7.getDate()-(6-i));
+  const dn = ["Su","Mo","Tu","We","Th","Fr","Sa"][d7.getDay()];
+  const shift = i===0?"0":i>=6?"-100%":"-50%";
+  labelsHtml += `<span style="position:absolute;left:${pct}%;transform:translateX(${shift});font-size:6.5px;color:#506878;font-family:'Exo 2',sans-serif;white-space:nowrap">${dn}</span>`;
+}
+document.getElementById("weekly-labels").innerHTML = labelsHtml;
+
+document.getElementById("weekly-legend").innerHTML = [...dsLayers].reverse().map(l =>
+  `<div class="energyde-stacked-leg"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${l.color};margin-right:2px"></span>${l.label}</div>`
+).join("");
+</script>
+</body>
+</html>

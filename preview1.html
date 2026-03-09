@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MMM-REnergy · Preview 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0a0f14;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 30px;
+  font-family: 'Exo 2', sans-serif;
+}
+.preview-label {
+  color: #3a5060;
+  font-size: 0.65em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.mmm-renergy-wrapper { font-family:'Exo 2',sans-serif; color:#e0e8f0; user-select:none; display:inline-block; width:fit-content; }
+.energyde-grid { display:grid; gap:1px; width:fit-content; grid-template-columns: repeat(4, 200px); }
+.energyde-panel { padding:10px 14px; background:rgba(255,255,255,0.04); border-top:2px solid rgba(255,255,255,0.08); min-width:160px; display:flex; flex-direction:column; }
+.energyde-panel--wind       { border-top-color:#00b4d8; }
+.energyde-panel--solar      { border-top-color:#f4c430; }
+.energyde-panel--renewable  { border-top-color:#2ecc71; }
+.energyde-panel--production { border-top-color:#e74c3c; }
+.energyde-panel-header { display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+.energyde-icon { font-size:1em; opacity:0.9; }
+.energyde-icon-svg { display:inline-block; vertical-align:middle; flex-shrink:0; opacity:0.9; }
+.energyde-icon--wind       { color:#00b4d8; }
+.energyde-icon--solar      { color:#f4c430; }
+.energyde-icon--renewable  { color:#2ecc71; }
+.energyde-icon--production { color:#e74c3c; }
+.energyde-label { font-weight:500; font-size:0.72em; text-transform:uppercase; letter-spacing:0.08em; color:#a0b8cc; }
+.energyde-big-number { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:2.2em; line-height:1; color:#fff; margin:4px 0 2px; }
+.energyde-unit { font-size:0.55em; font-weight:400; color:#8aa8bc; letter-spacing:0.05em; }
+.energyde-sub { font-size:0.65em; color:#7a9ab0; line-height:1.3; margin-bottom:8px; }
+.energyde-sub strong { color:#b8d0e0; font-weight:500; }
+.energyde-avg { font-size:0.62em; color:#607888; margin-bottom:4px; }
+.energyde-avg strong { color:#2ecc71; }
+.energyde-minichart { margin-top:6px; flex:1; min-height:0; display:flex; flex-direction:column; opacity:0.9; }
+.energyde-minichart > svg { flex:1; min-height:0; width:100%; display:block; }
+.energyde-svg { display:block; width:100%; height:auto; overflow:visible; }
+.energyde-stat-row { display:flex; justify-content:space-between; margin-top:10px; gap:4px; }
+.energyde-stat { display:flex; flex-direction:column; align-items:center; flex:1; }
+.energyde-stat-val { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.1em; color:#fff; line-height:1.1; }
+.energyde-stat-label { font-size:0.52em; color:#506878; text-transform:uppercase; letter-spacing:0.05em; margin-top:1px; }
+.energyde-col--wind  { color:#00b4d8; }
+.energyde-col--solar { color:#f4c430; }
+.energyde-bars { margin-top:6px; flex:1; min-height:0; overflow:hidden; flex-direction:column; }
+.energyde-bar-row { display:flex; align-items:center; gap:5px; margin-bottom:4px; flex:1; min-height:0; }
+.energyde-bar-label { font-size:0.6em; color:#7a9ab0; width:48px; flex-shrink:0; }
+.energyde-bar-track { flex:1; height:5px; background:rgba(255,255,255,0.07); border-radius:3px; overflow:hidden; }
+.energyde-bar-fill { height:100%; border-radius:3px; transition:width 1.2s ease; opacity:0.85; }
+.energyde-bar-pct { font-family:'Rajdhani',sans-serif; font-size:0.65em; color:#a0b8cc; width:28px; text-align:right; flex-shrink:0; }
+.energyde-footer { font-size:0.5em; color:#3a5060; text-align:right; margin-top:4px; padding-right:2px; letter-spacing:0.03em; }
+</style>
+</head>
+<body>
+<div class="preview-label">MMM-REnergy · Preview 1 · wind / solar / renewable / production</div>
+<div class="mmm-renergy-wrapper">
+  <div class="energyde-grid">
+
+    <!-- WIND -->
+    <div class="energyde-panel energyde-panel--wind">
+      <div class="energyde-panel-header">
+        <svg class="energyde-icon-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#00b4d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+        <span class="energyde-label">Wind Feed-in</span>
+      </div>
+      <div class="energyde-big-number">6.4 <span class="energyde-unit">GW</span></div>
+      <div class="energyde-sub">Avg. power <strong>yesterday</strong></div>
+      <div class="energyde-stat-row">
+        <div class="energyde-stat">
+          <span class="energyde-stat-val energyde-col--wind">11.2</span>
+          <span class="energyde-stat-label">GW Peak</span>
+        </div>
+        <div class="energyde-stat">
+          <span class="energyde-stat-val">155</span>
+          <span class="energyde-stat-label">GWh</span>
+        </div>
+        <div class="energyde-stat">
+          <span class="energyde-stat-val energyde-col--wind">16 %</span>
+          <span class="energyde-stat-label">Share</span>
+        </div>
+      </div>
+      <div class="energyde-minichart">
+        <svg id="chart-wind" viewBox="0 0 200 55" class="energyde-svg"></svg>
+      </div>
+    </div>
+
+    <!-- SOLAR -->
+    <div class="energyde-panel energyde-panel--solar">
+      <div class="energyde-panel-header">
+        <span class="energyde-icon energyde-icon--solar">☀</span>
+        <span class="energyde-label">Solar Feed-in</span>
+      </div>
+      <div class="energyde-big-number">10.7 <span class="energyde-unit">GW</span></div>
+      <div class="energyde-sub">Avg. power <strong>yesterday</strong></div>
+      <div class="energyde-stat-row">
+        <div class="energyde-stat">
+          <span class="energyde-stat-val energyde-col--solar">28.4</span>
+          <span class="energyde-stat-label">GW Peak</span>
+        </div>
+        <div class="energyde-stat">
+          <span class="energyde-stat-val">256</span>
+          <span class="energyde-stat-label">GWh</span>
+        </div>
+        <div class="energyde-stat">
+          <span class="energyde-stat-val energyde-col--solar">26 %</span>
+          <span class="energyde-stat-label">Share</span>
+        </div>
+      </div>
+      <div class="energyde-minichart">
+        <svg id="chart-solar" viewBox="0 0 200 55" class="energyde-svg"></svg>
+      </div>
+    </div>
+
+    <!-- RENEWABLE -->
+    <div class="energyde-panel energyde-panel--renewable">
+      <div class="energyde-panel-header">
+        <span class="energyde-icon energyde-icon--renewable">⟳</span>
+        <span class="energyde-label">Renewables</span>
+      </div>
+      <div class="energyde-big-number">42 <span class="energyde-unit">%</span></div>
+      <div class="energyde-sub">of electricity was renewable yesterday</div>
+      <div class="energyde-sub" style="opacity:0.6;font-size:0.82em;margin-top:-4px">52% incl. biomass</div>
+      <div class="energyde-avg">30-day average: <strong>54 %</strong></div>
+      <div class="energyde-minichart">
+        <svg id="chart-renew" viewBox="0 0 200 55" class="energyde-svg"></svg>
+      </div>
+    </div>
+
+    <!-- PRODUCTION -->
+    <div class="energyde-panel energyde-panel--production">
+      <div class="energyde-panel-header">
+        <span class="energyde-icon energyde-icon--production">⚡</span>
+        <span class="energyde-label">Power Production</span>
+      </div>
+      <div class="energyde-big-number">0.99 <span class="energyde-unit">TWh</span></div>
+      <div class="energyde-sub">electricity generated in Germany yesterday</div>
+      <div class="energyde-bars">
+        <div class="energyde-bar-row">
+          <span class="energyde-bar-label">Wind</span>
+          <div class="energyde-bar-track"><div class="energyde-bar-fill" style="width:16%;background:#00b4d8"></div></div>
+          <span class="energyde-bar-pct">16 %</span>
+        </div>
+        <div class="energyde-bar-row">
+          <span class="energyde-bar-label">Solar</span>
+          <div class="energyde-bar-track"><div class="energyde-bar-fill" style="width:26%;background:#f4c430"></div></div>
+          <span class="energyde-bar-pct">26 %</span>
+        </div>
+        <div class="energyde-bar-row">
+          <span class="energyde-bar-label">Coal</span>
+          <div class="energyde-bar-track"><div class="energyde-bar-fill" style="width:46%;background:#8b5e3c"></div></div>
+          <span class="energyde-bar-pct">46 %</span>
+        </div>
+        <div class="energyde-bar-row">
+          <span class="energyde-bar-label">Gas</span>
+          <div class="energyde-bar-track"><div class="energyde-bar-fill" style="width:1%;background:#9b59b6"></div></div>
+          <span class="energyde-bar-pct">1 %</span>
+        </div>
+        <div class="energyde-bar-row">
+          <span class="energyde-bar-label">Biomass</span>
+          <div class="energyde-bar-track"><div class="energyde-bar-fill" style="width:10%;background:#4a7c59"></div></div>
+          <span class="energyde-bar-pct">10 %</span>
+        </div>
+        <div class="energyde-bar-row">
+          <span class="energyde-bar-label">Other</span>
+          <div class="energyde-bar-track"><div class="energyde-bar-fill" style="width:1%;background:#555"></div></div>
+          <span class="energyde-bar-pct">1 %</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="energyde-footer">Data: Fraunhofer ISE · energy-charts.info · 08.03.2026</div>
+</div>
+
+<script>
+function miniChart(id, data, color) {
+  const svg = document.getElementById(id);
+  const W = 200, H = 55;
+  const min = Math.min(...data), max = Math.max(...data);
+  const range = max - min || 1;
+  const pts = data.map((v,i) => {
+    const x = (i/(data.length-1))*W;
+    const y = H - ((v-min)/range)*(H-8) - 4;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ");
+  const lx = W, ly = H - ((data[data.length-1]-min)/range)*(H-8) - 4;
+  const gid = `g${id}`;
+  svg.innerHTML = `
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${color}" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+    </linearGradient></defs>
+    <polygon points="0,${H} ${pts} ${W},${H}" fill="url(#${gid})"/>
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linejoin="round"/>
+    <circle cx="${lx}" cy="${ly.toFixed(1)}" r="2.5" fill="${color}"/>`;
+}
+const wind  = [4.2,5.1,6.8,7.2,5.9,4.4,3.8,5.2,6.1,7.4,8.1,7.6,6.9,5.8,4.7,3.9,4.5,5.3,6.2,7.1,8.0,7.3,6.5,5.4,4.3,3.7,4.8,5.6,6.4,6.4];
+const solar = [0,0,0,2.1,6.4,10.2,13.8,16.1,18.4,20.2,21.8,22.4,21.9,20.1,17.8,14.2,10.1,6.3,2.4,0,0,0,0,5.1,9.8,14.2,17.6,19.8,12.4,10.7];
+const renew = [48,52,55,44,61,67,72,58,50,49,53,60,63,55,48,51,57,64,69,72,65,58,52,54,60,66,70,74,68,42];
+miniChart("chart-wind",  wind,  "#00b4d8");
+miniChart("chart-solar", solar, "#f4c430");
+miniChart("chart-renew", renew, "#2ecc71");
+</script>
+</body>
+</html>
