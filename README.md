@@ -67,7 +67,7 @@ Full config with all options:
     "solar", 
     "renewable", 
     "production",
-    //"windExpansion",  //<-- actual data broken!
+    "windExpansion",
     "solarExpansion",
     "monthlyMix",
     "weeklyMix", 
