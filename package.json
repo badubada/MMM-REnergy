@@ -6,13 +6,9 @@
   "author": "",
   "license": "MIT",
   "keywords": [
-    "MagicMirror",
-    "MagicMirror2",
-    "energy",
-    "renewable",
+    "renewable energy",
     "solar",
     "wind",
-    "smartmirror"
   ],
   "repository": {
     "type": "git",
