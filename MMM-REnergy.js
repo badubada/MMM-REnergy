@@ -37,6 +37,13 @@ Module.register("MMM-REnergy", {
     // Example: tileWidth: 180, tileHeight: 220
     tileWidth:  null,
     tileHeight: null,
+
+    // Annual expansion targets (GW) used for the 2026 progress bar.
+    // Adjust to match official national targets for your configured country.
+    expansionTargets: {
+      wind:  10.0,   // GW new wind capacity targeted for 2026
+      solar: 22.0,   // GW new solar capacity targeted for 2026
+    },
   },
 
   requiresVersion: "2.15.0",
@@ -68,10 +75,12 @@ Module.register("MMM-REnergy", {
       prodSub:       "Strom wurden gestern in Deutschland erzeugt",
       dataSource:    "Daten: Bundesnetzagentur | SMARD.de",
       // expansion tiles
-      windExpLabel:   "Ausbau Windenergie 2025",
-      solarExpLabel:  "Ausbau Sonnenenergie 2025",
-      expansionSub:        "Installierte Leistung (jährlich)",
-      expansionSubMonthly: "Installierte Leistung · monatlich (Quelle: MaStR)",
+      windExpLabel:        "Ausbau Windenergie 2026",
+      solarExpLabel:       "Ausbau Sonnenenergie 2026",
+      expansionTarget:     "Ziel 2026",
+      expansionProgress:   "neu installiert seit Jan 2026",
+      expansionPrevYear:   "Ausbau 2025",
+      expansionNoData:     "Noch keine Daten für 2026",
       // monthlyMix tile
       monthlyLabel:  "Strommix diesen Monat",
       monthlySub:    "Erzeugung laufender Monat",
@@ -116,10 +125,12 @@ Module.register("MMM-REnergy", {
       prodSub:       "electricity generated in Germany yesterday",
       dataSource:    "Data: Federal Network Agency | SMARD.de",
       // expansion tiles
-      windExpLabel:   "Wind Energy Expansion 2025",
-      solarExpLabel:  "Solar Energy Expansion 2025",
-      expansionSub:        "Installed capacity (yearly)",
-      expansionSubMonthly: "Installed capacity · monthly (Source: MaStR)",
+      windExpLabel:        "Wind Energy Expansion 2026",
+      solarExpLabel:       "Solar Energy Expansion 2026",
+      expansionTarget:     "Target 2026",
+      expansionProgress:   "newly installed since Jan 2026",
+      expansionPrevYear:   "Expansion 2025",
+      expansionNoData:     "No data for 2026 yet",
       // monthlyMix tile
       monthlyLabel:  "Power Mix This Month",
       monthlySub:    "Generation current month",
@@ -508,119 +519,117 @@ Module.register("MMM-REnergy", {
     </svg>`;
   },
 
-  // ── Expansion tiles: installed GW stacked bar chart ──────────────────────────
-  // Big number: latest authoritative yearly total (latestWindGW / latestSolarGW)
-  // Chart: monthly cumulative GW (last ~36 months, skipping last 3 for MaStR lag)
-  //        OR yearly fallback if monthly unavailable
-  // Both Wind (blue) + Solar (yellow) stacked for context; highlighted carrier on top.
+  // ── Expansion tiles: 2026 progress bar + 2025 summary ───────────────────────
+  // Progress bar: GW newly installed in 2026 vs. annual target (config.expansionTargets)
+  // Below: 2025 full-year expansion shown numerically for context.
+  //
+  // Gain calculation uses yearlyAnchors (SKIP-independent, from monthly year-end values):
+  //   gain2026 = anchor[2026] − anchor[2025]   (or latest monthly 2026 point if no anchor yet)
+  //   gain2025 = anchor[2025] − anchor[2024]
   _buildExpansionPanel(type, d, t) {
     const isWind  = type === "wind";
     const color   = isWind ? "#00b4d8" : "#f4c430";
+    const typeKey = isWind ? "wind" : "solar";
     const label   = isWind ? t.windExpLabel : t.solarExpLabel;
     const icon    = isWind
       ? `<svg class="energyde-icon-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>`
       : `<span class="energyde-icon energyde-icon--solar">☀</span>`;
 
-    const panel = this._createPanel(isWind ? "wind" : "solar");
+    const panel = this._createPanel(typeKey);
 
     if (!d.expansion?.series?.length) {
       panel.innerHTML = `<div class="energyde-loading">…</div>`;
       return panel;
     }
 
-    const exp      = d.expansion;
-    const series   = exp.series;  // already trimmed to desired window in node_helper
-    const isMonthly = exp.isMonthly !== false;
+    const series  = d.expansion.series;
+    const anchors = d.expansion.yearlyAnchors;
+    const key     = isWind ? "windGW" : "solarGW";
+    const target  = isWind
+      ? (this.config.expansionTargets?.wind  ?? 10.0)
+      : (this.config.expansionTargets?.solar ?? 22.0);
 
-    // Big number: use authoritative yearly latest if available, else last series entry
-    const mainVal  = isWind
-      ? (exp.latestWindGW  ?? series[series.length - 1].windGW)
-      : (exp.latestSolarGW ?? series[series.length - 1].solarGW);
+    // ── 2025 full-year gain ───────────────────────────────────────
+    let gain2025 = null;
+    if (anchors?.[2025] && anchors?.[2024]) {
+      gain2025 = parseFloat((anchors[2025][key] - anchors[2024][key]).toFixed(2));
+    }
 
-    // Chart dimensions
-    const W = 200, H = 52, PT = 2;
-    const maxTotal = Math.max(...series.map((s) => s.windGW + s.solarGW)) || 1;
-    const barW = Math.max(1, Math.floor((W - (series.length - 1)) / series.length));
-    const gap  = Math.max(0, Math.floor((W - barW * series.length) / Math.max(series.length - 1, 1)));
-
-    const MONTH_NAMES_DE = ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
-    const MONTH_NAMES_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    const mNames = (this.config.language === "en") ? MONTH_NAMES_EN : MONTH_NAMES_DE;
-
-    // Build bars
-    let bars = "";
-    let labelSpans = "";
-
-    // X-axis: show "Jan YY" at every January (year change), plus first and last bar
-    let lastLabelYear = -1;
-    series.forEach((s, i) => {
-      const x      = i * (barW + gap);
-      const windH  = Math.max(1, (s.windGW  / maxTotal) * (H - PT));
-      const solarH = Math.max(1, (s.solarGW / maxTotal) * (H - PT));
-      const windY  = H - windH;
-      const solarY = windY - solarH;
-
-      bars += `<rect x="${x}" y="${windY.toFixed(1)}" width="${barW}" height="${windH.toFixed(1)}" fill="#00b4d8" opacity="0.85"/>`;
-      bars += `<rect x="${x}" y="${solarY.toFixed(1)}" width="${barW}" height="${solarH.toFixed(1)}" fill="#f4c430" opacity="0.85"/>`;
-
-      // Label strategy:
-      //   monthly: show "Jan YY" at every January + last bar
-      //   yearly:  show year at first, middle, last
-      let showLabel = false;
-      let xLbl = "";
-
-      if (isMonthly) {
-        const isJan  = s.month === 0;
-        const isLast = i === series.length - 1;
-        const isFirst = i === 0;
-        if ((isJan && s.year !== lastLabelYear) || isFirst || isLast) {
-          showLabel = true;
-          // First bar: "Mmm YY", Jan bars: "Jan YY", last bar: "Mmm YY"
-          const shortYear = String(s.year).slice(2);
-          xLbl = isJan || isFirst || isLast
-            ? `${mNames[s.month]} ${shortYear}`
-            : String(s.year);
-          if (isJan) lastLabelYear = s.year;
-        }
-      } else {
-        // Yearly fallback: label first, middle, last
-        showLabel = i === 0 || i === Math.floor(series.length / 2) || i === series.length - 1;
-        xLbl = String(s.year);
+    // ── 2026 progress ────────────────────────────────────────────
+    let gain2026 = null;
+    let monthLabel = "";
+    if (anchors?.[2026] && anchors?.[2025]) {
+      gain2026 = parseFloat((anchors[2026][key] - anchors[2025][key]).toFixed(2));
+    } else if (anchors?.[2025]) {
+      const pts2026 = series.filter((s) => s.year === 2026);
+      if (pts2026.length) {
+        const latest = pts2026[pts2026.length - 1];
+        gain2026 = parseFloat((latest[key] - anchors[2025][key]).toFixed(2));
+        const MN_DE = ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
+        const MN_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        monthLabel = (this.config.language === "en" ? MN_EN : MN_DE)[latest.month] ?? "";
       }
+    }
 
-      if (showLabel) {
-        const pct   = series.length > 1 ? (x / Math.max(1, W - barW) * 100).toFixed(1) : "50";
-        const shift = i === 0 ? "0" : i >= series.length - 1 ? "-100%" : "-50%";
-        labelSpans += `<span style="position:absolute;left:${pct}%;transform:translateX(${shift});font-size:6px;color:#506878;font-family:Exo 2,sans-serif;white-space:nowrap">${xLbl}</span>`;
-      }
-    });
+    // ── Progress bar ──────────────────────────────────────────────
+    const pct2026     = gain2026 !== null ? Math.min(100, (gain2026 / target) * 100) : 0;
+    const hasData2026 = gain2026 !== null && gain2026 > 0;
 
-    bars += `<line x1="0" y1="${H}" x2="${W}" y2="${H}" stroke="#2a3a48" stroke-width="0.5"/>`;
+    // Day-of-year marker: where we "should" be if expansion were linear
+    const now       = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+    const dayOfYear = Math.floor((now - startOfYear) / 86400000) + 1;
+    const daysInYear = (now.getFullYear() % 4 === 0 && (now.getFullYear() % 100 !== 0 || now.getFullYear() % 400 === 0)) ? 366 : 365;
+    const pctDay    = parseFloat((dayOfYear / daysInYear * 100).toFixed(1));
 
-    // Sub-label: indicate data lag warning for monthly
-    const subNote = isMonthly ? t.expansionSubMonthly : t.expansionSub;
+    // Format date as DD.MM. (DE) or MM/DD (EN)
+    const dd = String(now.getDate()).padStart(2, "0");
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dateStr = this.config.language === "en" ? `${mm}/${dd}` : `${dd}.${mm}.`;
 
-    // Legend
-    const legendHtml = `
-      <span style="font-size:7px;color:#7a9ab0;display:inline-flex;align-items:center;gap:3px;margin-right:6px">
-        <span style="display:inline-block;width:7px;height:7px;border-radius:1px;background:#00b4d8"></span>${t.carriers.wind}
-      </span>
-      <span style="font-size:7px;color:#7a9ab0;display:inline-flex;align-items:center;gap:3px">
-        <span style="display:inline-block;width:7px;height:7px;border-radius:1px;background:#f4c430"></span>${t.carriers.solar}
-      </span>`;
+    // Marker label: centered under the marker line
+    const markerBlock = `
+      <div style="position:relative;height:18px;margin-top:2px">
+        <div style="position:absolute;left:${pctDay}%;top:0;transform:translateX(-50%);width:1px;height:10px;background:rgba(255,255,255,0.35)"></div>
+        <div style="position:absolute;left:${pctDay}%;top:10px;transform:translateX(-50%);font-size:6px;color:#506878;white-space:nowrap;font-family:'Exo 2',sans-serif">
+          ${dateStr}: ${pctDay} %
+        </div>
+      </div>`;
+
+    const progressBlock = hasData2026 ? `
+      <div class="energyde-big-number">
+        ${gain2026.toFixed(2)} <span class="energyde-unit">GW</span>
+      </div>
+      <div class="energyde-sub">${t.expansionProgress}${monthLabel ? " (" + monthLabel + ")" : ""}</div>
+      <div class="energyde-progress-block">
+        <div class="energyde-progress-label">
+          <span class="energyde-goal">${t.expansionTarget} · ${target} GW</span>
+          <span class="energyde-current-val">${pct2026.toFixed(1)} %</span>
+        </div>
+        <div class="energyde-progress-bar" style="overflow:visible;position:relative">
+          <div class="energyde-progress-fill energyde-fill--${typeKey}" style="width:${pct2026.toFixed(1)}%;overflow:visible"></div>
+          <div style="position:absolute;top:-3px;left:${pctDay}%;transform:translateX(-50%);width:1px;height:10px;background:rgba(255,255,255,0.4)"></div>
+        </div>
+        ${markerBlock}
+      </div>` : `
+      <div class="energyde-sub" style="margin-top:8px">${t.expansionNoData}</div>`;
+
+    // ── 2025 summary ──────────────────────────────────────────────
+    const prev2025Block = gain2025 !== null ? `
+      <div class="energyde-stat-row" style="margin-top:10px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.06)">
+        <div class="energyde-stat">
+          <span class="energyde-stat-label">${t.expansionPrevYear}</span>
+          <span class="energyde-stat-val energyde-col--${typeKey}">${gain2025.toFixed(2)} <span style="font-size:0.65em;font-weight:400;color:#7a9ab0">GW</span></span>
+        </div>
+      </div>` : "";
 
     panel.innerHTML = `
       <div class="energyde-panel-header">
         ${icon}
         <span class="energyde-label">${label}</span>
       </div>
-      <div class="energyde-big-number">${mainVal.toFixed(1)} <span class="energyde-unit">GW</span></div>
-      <div class="energyde-sub" style="margin-bottom:2px">${subNote}</div>
-      <div class="energyde-minichart energyde-minichart--xaxis">
-        <svg viewBox="0 0 ${W} ${H}" class="energyde-svg" preserveAspectRatio="none" style="overflow:visible;width:100%;height:100%;display:block;">${bars}</svg>
-        <div style="position:relative;height:11px;margin-top:1px;">${labelSpans}</div>
-      </div>
-      <div style="margin-top:3px">${legendHtml}</div>
+      ${progressBlock}
+      ${prev2025Block}
     `;
     return panel;
   },
